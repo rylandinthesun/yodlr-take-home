@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import UserCard from './UserCard';
+import { Link } from 'react-router-dom';
 
-const UserList = ({ users }) => {
+import './UserList.css';
+
+const UserList = () => {
 	const [
 		userData,
 		setUserData
@@ -14,22 +17,32 @@ const UserList = ({ users }) => {
 		setUserData(users);
 	};
 
-	useEffect(() => {
-		getUsers();
-	}, []);
+	useEffect(
+		() => {
+			getUsers();
+		},
+		[
+			userData
+		]
+	);
 
 	return (
 		<div>
-			{userData.map((u) => (
-				<UserCard
-					key={u.id}
-					id={u.id}
-					email={u.email}
-					firstName={u.firstName}
-					lastName={u.lastName}
-					state={u.state}
-				/>
-			))}
+			<div className="userlist-container">
+				{userData.map((u) => (
+					<UserCard
+						key={u.id}
+						id={u.id}
+						email={u.email}
+						firstName={u.firstName}
+						lastName={u.lastName}
+						state={u.state}
+					/>
+				))}
+			</div>
+			<div className="back-link">
+				<Link to="/">Back</Link>
+			</div>
 		</div>
 	);
 };

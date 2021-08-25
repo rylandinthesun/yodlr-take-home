@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const SignUpForm = ({ value }) => {
+import './SignUpForm.css';
+import { Link } from 'react-router-dom';
+
+const SignUpForm = () => {
 	const [
 		email,
 		setEmail
@@ -14,6 +17,10 @@ const SignUpForm = ({ value }) => {
 		lastName,
 		setLastName
 	] = useState('');
+	const [
+		success,
+		setSuccess
+	] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -26,6 +33,10 @@ const SignUpForm = ({ value }) => {
 			})
 			.then(function (response) {
 				console.log(response);
+				setEmail('');
+				setFirstName('');
+				setLastName('');
+				setSuccess(!success);
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -33,29 +44,41 @@ const SignUpForm = ({ value }) => {
 	};
 
 	return (
-		<div>
-			<h3>Sign Up!</h3>
-			<form onSubmit={handleSubmit}>
+		<div className="form-container">
+			<h3 className="signup-heading">Sign Up!</h3>
+			<form className="form" onSubmit={handleSubmit}>
 				<label htmlFor="email">Email:</label>
-				<input type="email" name="email" id="email" value={value} onChange={(e) => setEmail(e.target.value)} />
+				<input
+					type="email"
+					name="email"
+					id="email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+					placeholder="johnsmith@gmail.com"
+				/>
 				<label htmlFor="firstName">First Name:</label>
 				<input
 					type="text"
 					name="firstName"
 					id="firstName"
-					value={value}
+					value={firstName}
 					onChange={(e) => setFirstName(e.target.value)}
+					placeholder="John"
 				/>
 				<label htmlFor="lastName">Last Name:</label>
 				<input
 					type="text"
 					name="lastName"
 					id="lastName"
-					value={value}
+					value={lastName}
 					onChange={(e) => setLastName(e.target.value)}
+					placeholder="Smith"
 				/>
-				<button type="submit">Submit</button>
+				{!success ? <button type="submit">Submit</button> : <h4 className="success">Success!</h4>}
 			</form>
+			<div className="back-link">
+				<Link to="/">Home</Link>
+			</div>
 		</div>
 	);
 };

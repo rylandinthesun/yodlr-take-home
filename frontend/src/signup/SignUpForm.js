@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 
 import './SignUpForm.css';
 import { Link } from 'react-router-dom';
 
 const SignUpForm = () => {
+	const history = useHistory();
 	const [
 		email,
 		setEmail
@@ -37,6 +39,9 @@ const SignUpForm = () => {
 				setFirstName('');
 				setLastName('');
 				setSuccess(!success);
+				setTimeout(() => {
+					history.push('/');
+				}, 2000);
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -74,7 +79,14 @@ const SignUpForm = () => {
 					onChange={(e) => setLastName(e.target.value)}
 					placeholder="Smith"
 				/>
-				{!success ? <button type="submit">Submit</button> : <h4 className="success">Success!</h4>}
+				{!success ? (
+					<button type="submit">Submit</button>
+				) : (
+					<div className="loading">
+						<h4 className="success">Success!</h4>
+						<div className="loader" />
+					</div>
+				)}
 			</form>
 			<div className="back-link">
 				<Link to="/">Home</Link>
